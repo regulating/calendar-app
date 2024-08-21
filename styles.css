@@ -14,10 +14,32 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 500px;
     text-align: center;
 }
 
 #calendar {
     margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.day {
+    background-color: #e0e0e0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#addEventBtn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#addEventBtn:hover {
+    background-color: #0056b3;
 }

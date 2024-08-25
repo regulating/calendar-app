@@ -7,7 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveEventBtn = document.getElementById('saveEventBtn');
     const cancelEventBtn = document.getElementById('cancelEventBtn');
 
+    let events = [];
+    let editingEvent = null;
+
     addEventBtn.addEventListener('click', () => {
+        editingEvent = null;
         eventModal.classList.add('show');
     });
 
@@ -20,15 +24,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const eventDate = document.getElementById('eventDate').value;
 
         if (eventName && eventDate) {
-            alert(`Event "${eventName}" saved for ${eventDate}`);
+            if (editingEvent) {
+                editingEvent.name = eventName;
+                editingEvent.date = eventDate;
+            } else {
+                events.push({ name: eventName, date: eventDate });
+            }
+            renderEvents();
             eventModal.classList.remove('show');
         }
     });
 
-    days.forEach(day => {
-        const dayElement = document.createElement('div');
-        dayElement.className = 'day';
-        dayElement.textContent = day;
-        calendarElement.appendChild(dayElement);
-    });
+    function renderEvents() {
+        calendarElement.innerHTML = '';
+        days.forEach(day => {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'day';
+            dayElement.textContent = day;
+            calendarElement.appendChild(dayElement);
+        });
+
+        events.forEach(event => {
+            const eventElement = document.createElement('div');
+            eventElement.className = 'event';
+            eventElement.textContent = event.name;
+            eventElement.dataset.date = event.date;
+
+            eventElement.addEventListener('click', () => {
+                editingEvent = event;
+                document.getElementById('eventName').value = event.name;
+                document.getElementById('eventDate').value = event.date;
+                eventModal.classList.add('show');
+            });
+
+            calendarElement.appendChild(eventElement);
+        });
+    }
 });

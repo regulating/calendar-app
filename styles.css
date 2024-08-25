@@ -66,3 +66,11 @@ body {
     margin: 10px 0;
 }
 
+.event {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}

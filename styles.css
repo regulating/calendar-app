@@ -89,6 +89,14 @@ body.dark .day {
     background-color: #555;
 }
 
-body.dark .event {
+body.dark #addEventBtn {
     background-color: #FF9800;
 }
+
+body.dark #addEventBtn:hover {
+    background-color: #be7200;
+}
+
+body.dark h1, body.dark h2 {
+    color: rgb(0, 0, 0);
+  }

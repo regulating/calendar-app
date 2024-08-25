@@ -6,8 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const addEventBtn = document.getElementById('addEventBtn');
     const saveEventBtn = document.getElementById('saveEventBtn');
     const cancelEventBtn = document.getElementById('cancelEventBtn');
+    const themeToggle = document.getElementById('themeToggle');
 
-    let events = [];
+    let events = JSON.parse(localStorage.getItem('events')) || [];
     let editingEvent = null;
 
     addEventBtn.addEventListener('click', () => {
@@ -30,9 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 events.push({ name: eventName, date: eventDate });
             }
+            localStorage.setItem('events', JSON.stringify(events));
             renderEvents();
             eventModal.classList.remove('show');
         }
+    });
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
     });
 
     function renderEvents() {
@@ -41,6 +47,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const dayElement = document.createElement('div');
             dayElement.className = 'day';
             dayElement.textContent = day;
+            dayElement.draggable = true;
+
+            dayElement.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text', day);
+            });
+
+            dayElement.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            dayElement.addEventListener('drop', (e) => {
+                const draggedDay = e.dataTransfer.getData('text');
+                alert(`Dragged from ${draggedDay} to ${day}`);
+            });
+
             calendarElement.appendChild(dayElement);
         });
 
@@ -60,4 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
             calendarElement.appendChild(eventElement);
         });
     }
+
+    renderEvents();
 });

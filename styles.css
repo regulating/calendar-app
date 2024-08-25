@@ -74,3 +74,21 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
+
+#themeToggle {
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+body.dark {
+    background-color: #333;
+    color: white;
+}
+
+body.dark .day {
+    background-color: #555;
+}
+
+body.dark .event {
+    background-color: #FF9800;
+}

@@ -195,6 +195,105 @@ button:hover {
     margin-top: 5px;
 }
 
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.day-header {
+    background-color: var(--header-color);
+    color: var(--button-text-color);
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.day {
+    background-color: var(--calendar-background);
+    border: 1px solid var(--day-border);
+    border-radius: 5px;
+    padding: 5px;
+    min-height: 100px;
+    position: relative;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.day:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.inactive-day {
+    background-color: var(--background-color);
+    color: #888888;
+    cursor: default;
+}
+
+.inactive-day:hover {
+    box-shadow: none;
+}
+
+.event-indicator {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-height: 60px;
+    overflow-y: auto;
+}
+
+.event-badge {
+    background-color: var(--event-background);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 0.75em;
+    color: var(--event-text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.event-badge:hover {
+    background-color: var(--button-hover);
+}
+
+.day.dragover {
+    background-color: var(--event-background);
+}
+
+#prevMonth, #nextMonth {
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+    border: none;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1em;
+}
+
+#prevMonth:hover, #nextMonth:hover {
+    background-color: var(--button-hover);
+}
+
+#monthYear {
+    color: var(--text-color);
+}
+
+@media (max-width: 600px) {
+    .event-badge {
+        font-size: 0.7em;
+    }
+}
+
 @media (max-width: 600px) {
     #calendar {
         grid-template-columns: repeat(2, 1fr);
@@ -212,4 +311,3 @@ button:hover {
         font-size: 0.9em;
     }
 }
-

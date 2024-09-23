@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const calendarElement = document.getElementById('calendar');
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
     const eventModal = document.getElementById('eventModal');
     const addEventBtn = document.getElementById('addEventBtn');
     const saveEventBtn = document.getElementById('saveEventBtn');
     const cancelEventBtn = document.getElementById('cancelEventBtn');
+    const deleteEventBtn = document.getElementById('deleteEventBtn');
     const themeToggle = document.getElementById('themeToggle');
 
     let events = JSON.parse(localStorage.getItem('events')) || [];
@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (eventName && eventDate) {
             if (editingEvent) {
-                editingEvent.name = eventName;
-                editingEvent.date = eventDate;
+                const index = events.findIndex(event => event === editingEvent);
+                events[index].name = eventName;
+                events[index].date = eventDate;
             } else {
                 events.push({ name: eventName, date: eventDate });
             }
@@ -35,6 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
             renderEvents();
             eventModal.classList.remove('show');
         }
+    });
+
+    deleteEventBtn.addEventListener('click', () => {
+        const index = events.findIndex(event => event === editingEvent);
+        events.splice(index, 1);
+        localStorage.setItem('events', JSON.stringify(events));
+        renderEvents();
+        eventModal.classList.remove('show');
     });
 
     themeToggle.addEventListener('click', () => {
@@ -84,3 +93,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderEvents();
 });
+

@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addEventBtn.addEventListener('click', () => {
         editingEvent = null;
+        document.getElementById('eventName').value = '';
+        document.getElementById('eventDate').value = '';
         eventModal.classList.add('show');
     });
 
@@ -23,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     saveEventBtn.addEventListener('click', () => {
         const eventName = document.getElementById('eventName').value;
         const eventDate = document.getElementById('eventDate').value;
-
+    
         if (eventName && eventDate) {
             if (editingEvent) {
                 const index = events.findIndex(event => event === editingEvent);
@@ -52,45 +54,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderEvents() {
         calendarElement.innerHTML = '';
-        days.forEach(day => {
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+    
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(currentYear, currentMonth, currentDate.getDate() - currentDate.getDay() + i);
             const dayElement = document.createElement('div');
             dayElement.className = 'day';
-            dayElement.textContent = day;
+            dayElement.textContent = `${days[i]} ${date.getDate()}`;
             dayElement.draggable = true;
-
+    
             dayElement.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text', day);
+                e.dataTransfer.setData('text', date.toISOString().split('T')[0]);
             });
-
+    
             dayElement.addEventListener('dragover', (e) => {
                 e.preventDefault();
             });
-
+    
             dayElement.addEventListener('drop', (e) => {
-                const draggedDay = e.dataTransfer.getData('text');
-                alert(`Dragged from ${draggedDay} to ${day}`);
+                const draggedDate = e.dataTransfer.getData('text');
+                alert(`Dragged from ${draggedDate} to ${date.toISOString().split('T')[0]}`);
             });
+    
+            const dayEvents = events.filter(event => {
+                const eventDate = new Date(event.date);
+                return eventDate.getDate() === date.getDate() &&
+                       eventDate.getMonth() === date.getMonth() &&
+                       eventDate.getFullYear() === date.getFullYear();
+            });
+    
+            dayEvents.forEach(event => {
+                const eventElement = document.createElement('div');
+                eventElement.className = 'event';
+                eventElement.textContent = event.name;
 
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.addEventListener('click', () => {
+                    editingEvent = event;
+                    document.getElementById('eventName').value = event.name;
+                    document.getElementById('eventDate').value = event.date;
+                    eventModal.classList.add('show');
+                });
+
+                eventElement.appendChild(editButton);
+                dayElement.appendChild(eventElement);
+            });
+    
             calendarElement.appendChild(dayElement);
-        });
-
-        events.forEach(event => {
-            const eventElement = document.createElement('div');
-            eventElement.className = 'event';
-            eventElement.textContent = event.name;
-            eventElement.dataset.date = event.date;
-
-            eventElement.addEventListener('click', () => {
-                editingEvent = event;
-                document.getElementById('eventName').value = event.name;
-                document.getElementById('eventDate').value = event.date;
-                eventModal.classList.add('show');
-            });
-
-            calendarElement.appendChild(eventElement);
-        });
+        }
     }
 
     renderEvents();
 });
-

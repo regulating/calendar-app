@@ -1,102 +1,215 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+:root {
+    --background-color: #f0f2f5;
+    --text-color: #333333;
+    --header-color: #4a90e2;
+    --button-color: #4a90e2;
+    --button-text-color: #ffffff;
+    --calendar-background: #ffffff;
+    --day-border: #dddddd;
+    --event-background: #e1f5fe;
+    --modal-background: rgba(0, 0, 0, 0.5);
+    --input-background: #ffffff;
+    --input-text-color: #333333;
+    --button-hover: #357ab8;
+    --event-text-color: #333333;
+}
+
+body.dark {
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --header-color: #bb86fc;
+    --button-color: #bb86fc;
+    --button-text-color: #121212;
+    --calendar-background: #1e1e1e;
+    --day-border: #333333;
+    --event-background: #333333;
+    --modal-background: rgba(0, 0, 0, 0.8);
+    --input-background: #2c2c2c;
+    --input-text-color: #e0e0e0;
+    --button-hover: #9a6cff;
+    --event-text-color: #e0e0e0;
+}
+
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    padding: 20px;
 }
 
 #app {
-    background-color: white;
+    width: 100%;
+    max-width: 800px;
     padding: 20px;
+    background-color: var(--calendar-background);
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 500px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+h1 {
     text-align: center;
+    margin-bottom: 20px;
+    color: var(--header-color);
+    transition: color 0.3s ease;
 }
 
 #calendar {
-    margin-top: 20px;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .day {
-    background-color: #e0e0e0;
-    padding: 10px;
+    background-color: var(--calendar-background);
+    border: 1px solid var(--day-border);
     border-radius: 5px;
+    padding: 10px;
+    min-height: 100px;
+    position: relative;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
 }
 
-#addEventBtn {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
+.day:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.day.dragover {
+    background-color: var(--event-background);
+}
+
+.day .event {
+    background-color: var(--event-background);
+    padding: 5px 8px;
+    margin-top: 5px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--event-text-color);
+}
+
+.day .event button {
+    background: none;
     border: none;
+    color: var(--button-color);
+    cursor: pointer;
+    font-size: 0.8em;
+    margin-left: 5px;
+    transition: color 0.3s ease;
+}
+
+.day .event button:hover {
+    color: var(--button-hover);
+}
+
+button {
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1em;
 }
 
-#addEventBtn:hover {
-    background-color: #0056b3;
+button:hover {
+    background-color: var(--button-hover);
+}
+
+#themeToggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px 12px;
+    font-size: 0.9em;
 }
 
 #eventModal {
     display: none;
     position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-background);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
 }
 
 #eventModal.show {
-    display: block;
+    display: flex;
 }
 
-#eventModal input,
-#eventModal button {
-    display: block;
-    margin: 10px 0;
+#eventModal > div {
+    background-color: var(--calendar-background);
+    padding: 20px 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
 }
 
-.event {
-    background-color: #4CAF50;
-    color: white;
-    padding: 5px;
-    margin-top: 10px;
+#eventModal h2 {
+    margin-bottom: 15px;
+    text-align: center;
+    color: var(--header-color);
+}
+
+#eventModal input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--day-border);
     border-radius: 5px;
-    cursor: pointer;
+    background-color: var(--input-background);
+    color: var(--input-text-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-#themeToggle {
-    margin-top: 20px;
-    cursor: pointer;
+#eventModal input::placeholder {
+    color: #999999;
 }
 
-body.dark {
-    background-color: #333;
-    color: white;
+#eventModal button {
+    width: 100%;
+    margin-top: 5px;
 }
 
-body.dark .day {
-    background-color: #555;
+@media (max-width: 600px) {
+    #calendar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #themeToggle {
+        top: 10px;
+        right: 10px;
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
 }
 
-body.dark #addEventBtn {
-    background-color: #FF9800;
-}
-
-body.dark #addEventBtn:hover {
-    background-color: #be7200;
-}
-
-body.dark h1, body.dark h2 {
-    color: rgb(0, 0, 0);
-  }

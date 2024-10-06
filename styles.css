@@ -46,6 +46,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    animation: fadeIn 1s ease-in-out;
 }
 
 #app {
@@ -56,6 +57,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     transition: background-color 0.3s ease;
+    animation: fadeIn 1s ease-in-out;
 }
 
 h1 {
@@ -81,6 +83,37 @@ h1 {
     position: relative;
     transition: background-color 0.3s ease, border-color 0.3s ease;
     overflow: hidden;
+    animation: staggeredFadeIn 0.8s ease forwards;
+    opacity: 0;
+}
+
+/* Staggered animation delay for each day in the calendar */
+.day:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.day:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.day:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.day:nth-child(4) {
+    animation-delay: 0.8s;
+}
+
+.day:nth-child(5) {
+    animation-delay: 1s;
+}
+
+.day:nth-child(6) {
+    animation-delay: 1.2s;
+}
+
+.day:nth-child(7) {
+    animation-delay: 1.4s;
 }
 
 .day:hover {
@@ -131,6 +164,7 @@ button {
 
 button:hover {
     background-color: var(--button-hover);
+    animation: bounce 0.3s ease-in-out;
 }
 
 #themeToggle {
@@ -157,6 +191,10 @@ button:hover {
 
 #eventModal.show {
     display: flex;
+}
+
+#eventModal.show > div {
+    animation: zoomIn 0.4s ease;
 }
 
 #eventModal > div {
@@ -212,22 +250,6 @@ button:hover {
     transition: background-color 0.3s ease;
 }
 
-.day {
-    background-color: var(--calendar-background);
-    border: 1px solid var(--day-border);
-    border-radius: 5px;
-    padding: 5px;
-    min-height: 100px;
-    position: relative;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.day:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
 .inactive-day {
     background-color: var(--background-color);
     color: #888888;
@@ -262,10 +284,6 @@ button:hover {
 
 .event-badge:hover {
     background-color: var(--button-hover);
-}
-
-.day.dragover {
-    background-color: var(--event-background);
 }
 
 #prevMonth, #nextMonth {
@@ -309,5 +327,48 @@ button:hover {
     button {
         padding: 8px 12px;
         font-size: 0.9em;
+    }
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes staggeredFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
     }
 }
